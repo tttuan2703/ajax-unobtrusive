@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+
+<form data-ajax="true" data-ajax-method="post" data-ajax-confirm="Are you sure" data-ajax-failure="fail" data-ajax-complete="com">
+    Name: <input type="text" name="name" /><br>
+    <input type="submit" />
+</form>
+<br />
+<span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
+<a data-ajax="true" data-ajax-loading="#spinner" data-ajax-begin="" data-ajax-update="#content" data-ajax-loading-duration="5000">Load image</a>
+<div id="content">
+    
+</div><br />
+
+<a data-ajax="true" data-ajax-url="/home/contact" data-ajax-update="#tbl" href="">Load lai table</a>
+<table id="tbl" class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody >
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+@section scripts{
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function fail(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+        function com(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+    </script>
+}
