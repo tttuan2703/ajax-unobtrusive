@@ -4,7 +4,7 @@
 }
 
 <div class="container-fluid">
-    @RenderPage("~/Views/Home/Insert.cshtml")
+    @{ Html.RenderPartial("Insert");}
     <br />
-    @RenderPage("~/Views/Home/LoadIndex.cshtml")
+    @Html.Partial("~/Views/Home/LoadIndex.cshtml")
 </div>
