@@ -2,22 +2,26 @@
     ViewBag.Title = "About";
     Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
-<p>Use this area to provide additional information.</p>
-
+@model WebApplication1.Models.EmployeeModel
 
 <form data-ajax="true" data-ajax-method="post" data-ajax-confirm="Are you sure" data-ajax-failure="fail" data-ajax-complete="com">
-    Name: <input type="text" name="name" /><br>
+    <input type="text" value="@Model.EmployeeId" />
+    <br />
+    <input type="text" value="@Model.Name" />
+    <br />
+    <input type="text" value="@Model.DepartmentId" />
+    <br />
+    <input type="text" value="@Model.SiteName" /><br>
+
     <input type="submit" />
 </form>
 <br />
 <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
 <a data-ajax="true" data-ajax-loading="#spinner" data-ajax-begin="" data-ajax-update="#content" data-ajax-loading-duration="5000">Load image</a>
 <div id="content">
-    
-</div><br />
+
+</div>
+<br />
 
 <a data-ajax="true" data-ajax-url="/home/contact" data-ajax-update="#tbl" href="">Load lai table</a>
 <table id="tbl" class="table table-bordered">
@@ -28,7 +32,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody >
+    <tbody>
         <tr>
             <td></td>
             <td></td>

@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+@using WebApplication1.Models;
+@model WebApplication1.Models.EmployeeModel
+
+<table class="table table-bordered table-striped table-responsive table-hover">
+    <thead>
+        <tr>
+            <th align="center">ID</th>
+            <th align="center">Employee Name</th>
+            <th align="center">Department Id</th>
+            <th align="center">Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            MVCTutorialEntities db = new MVCTutorialEntities();
+            foreach (var item in db.Employees)
+            {
+                <tr>
+                    <td>@item.EmployeeId</td>
+                    <td>@item.Name</td>
+                    <td>@item.DepartmentId</td>
+                    <td>@item.Address</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<a id="btnAn" data-ajax="true" class="pull-right" data-ajax-url="/home/loadindex" data-ajax-update="#tblEmployee" href="">Ẩn bớt</a>
+<script>
+    $('#btnAn').click(function () {
+        $(this).remove();
+    })
+</script>

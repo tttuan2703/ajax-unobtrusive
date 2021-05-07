@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -11,30 +12,86 @@ namespace WebApplication1.Controllers
     {
         public ActionResult Index()
         {
+            Models.MVCTutorialEntities db = new Models.MVCTutorialEntities();
+            Session["employee"] = null;
+            List<Department> list = db.Departments.ToList();
+            var listEmp = db.Employees.ToList();
+            ViewBag.DepartmentList = new SelectList(list, "DepartmentId", "DepartmentName");
+            ViewBag.ListEmp = new SelectList(listEmp);
+            return View();
+        }
+
+        public ActionResult Insert()
+        {
+            Models.MVCTutorialEntities db = new Models.MVCTutorialEntities();
+            Session["employee"] = null;
+            List<Department> list = db.Departments.ToList();
+            var listEmp = db.Employees.ToList();
+            ViewBag.DepartmentList = new SelectList(list, "DepartmentId", "DepartmentName");
+            ViewBag.ListEmp = new SelectList(listEmp);
             return PartialView();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Insert(EmployeeModel model)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return PartialView();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return PartialView();
-        }
-        public ActionResult OnGetPartial()
-        {
-            Thread.Sleep(2000);
-            return new PartialViewResult
+            try
             {
-                ViewName = "_HelloWorldPartial",
-                ViewData = this.ViewData
-            };
+                Employee emp = new Employee();
+                Models.MVCTutorialEntities db = new Models.MVCTutorialEntities();
+                List<Department> list = db.Departments.ToList();
+                ViewBag.DepartmentList = new SelectList(list, "DepartmentId", "DepartmentName");
+
+                if (ModelState.IsValid)
+                {
+                    emp.Address = model.Address;
+                    emp.Name = model.Name;
+                    emp.DepartmentId = model.DepartmentId;
+
+                    db.Employees.Add(emp);
+                    db.SaveChanges();
+
+                    model.EmployeeId = emp.EmployeeId;
+
+                    int latestEmpId = emp.EmployeeId;
+                    var it = model;
+                    Session["employee"] = it;
+                    Site site = new Site();
+                    site.SiteName = model.SiteName;
+                    site.EmployeeId = latestEmpId;
+                    db.Sites.Add(site);
+                    db.SaveChanges();
+                return RedirectToAction("About", "Home", model);
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult About(EmployeeModel emp)
+        {
+            try
+            {
+                //ViewBag.Message = "Your application description page.";
+                //if(this.Session["employee"]!=null)
+                //    emp = (EmployeeModel)this.Session["employee"];
+                return View(emp);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult LoadIndex()
+        {
+            return PartialView();
+        }
+        public ActionResult LoadAll()
+        {
+            return PartialView();
         }
     }
 }
