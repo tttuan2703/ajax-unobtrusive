@@ -20,9 +20,9 @@
         @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "--select--", new { @class = "form-control", @id = "drop_ID" })
          @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
 
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Name" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Name", @id = "name" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @placeholder = "Address" })
+                @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @placeholder = "Address", @id = "Address" })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                 @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control", @placeholder = "SiteName" })
@@ -63,10 +63,11 @@
                 url: "/Home/Insert",
                 data: data,
                 success: function (response) {
-                    if (response.EmployeeId == undefined || response.Name == undefined || response.DepartmentId == undefined) {
-                        alert("you wrong");
-                        return;
-                    }
+                    console.log(response)
+                    //if (response.EmployeeId == undefined || response.Name == undefined ) {
+                    //    alert("you wrong");
+                    //    return;
+                    //}
                     var emp = $("table tbody ");
                     emp.append("<tr>" +
                         "<td>" + response.EmployeeId + "</td>" +

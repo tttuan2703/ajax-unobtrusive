@@ -11,7 +11,7 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {
+        {//Control này em để hiển thị view chung cho 2 cái insert với loadAll(Bảng)
             Models.MVCTutorialEntities db = new Models.MVCTutorialEntities();
             Session["employee"] = null;
             List<Department> list = db.Departments.ToList();
