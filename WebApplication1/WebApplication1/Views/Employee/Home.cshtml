@@ -1,0 +1,221 @@
+﻿@model IEnumerable<WebApplication1.Models.tbl_Employee>
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h1 style="text-align:center">Home</h1>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+<p>
+    @*@Ajax.ActionLink("Create New", "Insert","Employee",new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ContentPanel" })*@
+    @*<a data-ajax="true" data-ajax-begin="" data-ajax-confirm="Are you sure?" data-ajax-url="/employee/insert"  data-ajax-update="#ContentPanel">Create Employee</a>*@
+    @Html.ActionLink("Create Employee", "insert", "Employee")
+</p>
+<div class="container-fluid">
+    <table class="table table-hover table-bordered table-responsive text-center pull-left" >
+        <thead>
+            <tr>
+                <th class="text-center">Mã nhân viên</th>
+                <th class="text-center">Họ và tên</th>
+                <th class="text-center">Giới tính</th>
+                <th class="text-center">Thành phố</th>
+                <th class="text-center">Hình ảnh</th>
+                <th class="text-center">Trạng thái</th>
+                <th class="text-center">Tên phòng ban</th>
+                <th class="text-center">Control</th>
+            </tr>
+        </thead>
+        <tbody id="trEmployee">
+            @foreach (var item in Model)
+            {
+                <tr id="@item.Id">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @*@Html.TextBoxFor(modelItem => item.Image,new { @type= "image", @src=""})*@
+                        <center><img src="~/image/@item.Image" class="img-rounded img-responsive img-circle" style="width:100px;height:100px;border:1px solid #000000" /></center>
+                    </td>
+                    <td>
+                        @*@Html.DropDownListFor(modelItem => item.statusflag, ViewBag.statusFlag as SelectList, new { @class = "statusFlag" })*@
+                        @*@Html.DisplayTextFor(modelItem => item.statusflag)*@
+                        @if (item.statusflag == true)
+                        {
+                            <i class="fas fa-check-circle" style="color:green;font-size:40px"></i>
+                        }
+                        @if (item.statusflag == false)
+                        {
+                            <i class="fas fa-times-circle" style="color:red;font-size:40px"></i>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tbl_Deparment.Name)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "EditEmp", new { id = item.Id }, new { @id = "btnUpdate" }) |*@
+                        @*<button type="button" data-toggle="modal" onclick="" id="btnUpdate" class="btn btn-info" data-target="#modal">Edit</button> &nbsp;*@
+    
+                        <a data-ajax="true" data-ajax-url="/Employee/EditEmp/@item.Id" data-ajax-update="#@item.Id" href="" class="btn btn-info">Edit</a> &nbsp;
+                        
+                        @*<button type="button" data-toggle="modal" onclick="" id="btnUpdate" class="btn btn-info" data-target="#modal">Edit</button> &nbsp;*@
+                        @*@Html.ActionLink("Delete", "DeleteEmployeeConfirm", new { id = item.Id }, new { @id = "btnDelete", @class = " btn btn-info" })*@
+                        @*<a data-ajax="true" id="btnDelete" data-ajax-confirm="Bạn có chắc muốn xóa ?" href="~/Employee/DeleteEmployeeConfirm/@item.Id" class="btn btn-info">Delete</a>*@
+                        @Ajax.ActionLink("Xóa", "DeleteEmployeeConfirm", new { Id = item.Id }, new AjaxOptions { Confirm = "Bạn Muốn Xóa Không?", OnComplete = "$('#" + @item.Id + "').remove()", HttpMethod = "DELETE" },new { @class="btn btn-info"})
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* Để modal sang riêng partial view khác *@
+    @using (Html.BeginForm("EditEmp", "Employee"))
+    {
+        @*@model IEnumerable<WebApplication1.Models.tbl_Employee>*@
+    <div class="modal fade " id="modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Employee</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdit">
+                        <div class="form-group">
+                            <label for="MaNV">Mã Nhân Viên </label>
+                            <input type="text" class="form-control" id="Id" placeholder="@Model.OrderByDescending(nv => nv.Id).First().Id" disabled="disabled" />
+                        </div>
+                        <div class="form-group">
+                            <label for="tenNV">Tên Nhân Viên </label>
+                            <input type="text" class="form-control" id="Name" value="@Model.OrderByDescending(nv => nv.Id).First().Name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="gt">Giới tính</label>
+                            @Html.DropDownList(@Model.OrderByDescending(nv => nv.Gender).First().Gender, new List<SelectListItem> {
+                               new SelectListItem{Text="Nam",Value="Nam",Selected=true},
+                               new SelectListItem{Text="Nữ",Value="Nữ",Selected=true}}, new { @class = "form-control", @id = "Gender" })
+                        </div>
+                        <div class="form-group">
+                            <label for="City">Thành phố</label>
+                            <input type="text" class="form-control" id="City" value="@Model.OrderByDescending(nv => nv.Id).First().City" />
+                        </div>
+                        <div class="form-group">
+                            <label for="City">Hình ảnh</label>
+                            <input type="file" class="form-control" id="Image" />
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Trạng thái</label>
+                            @Html.DropDownList(@Model.OrderByDescending(nv => nv.statusflag).First().statusflag.ToString(), new List<SelectListItem> {
+                               new SelectListItem{Text="True",Value="True",Selected=true},
+                               new SelectListItem{Text="False",Value="False",Selected=true}}, new { @class = "form-control", @id = "statusflag" })
+                        </div>
+                        <div class="form-group">
+                            <label for="dept">Tên phòng ban</label>
+                            @Html.DropDownList("DeptId", null, htmlAttributes: new { @class = "form-control", @id = "deptId" })
+                        </div>
+                        <div class="form-group">
+                            <center><input type="submit" value="SAVE" class="btn btn-info"/></center>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>*@
+    <script>
+        function fail(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+        function com(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+    </script>
+    <script>
+        $(document).ready(function () {
+                $(document).ready(function () {
+            var img = document.getElementById("hinhAnh");
+            var sizeMax = 0;
+            img.onchange = function () {
+                    sizeMax = this.files[0].size;
+                if (this.files[0].size > 83886080) {
+                    alert("File is too big! Just receive file < 80MB!");
+                    this.value = "NV1.jpg";
+                }
+            }
+            $("#btnSave").click(function () {
+                if (sizeMax > 83886080) {
+                    alert("File is too big! Just receive file < 80MB!");
+                    img.value = "NV1.jpg";
+                    return;
+                }
+            })
+        })
+            //$("#btnDelete").click(function () {
+            //    $.ajax({
+            //        success: function (response) {
+            //            alert("Delete successfull!");
+            //        }
+            //    })
+            //});
+
+            //    $("#trEmployee tr ").click(function () {
+            //        //$.ajax({
+            //        //    url: "Employee/Home",
+            //        //    success: (function (response) {
+            //        //        ()
+            //        //    })
+            //        //})
+            //        var currentRow = $(this).closest("tr")[0];
+            //        //alert(currentRow)
+            //        var cell = currentRow.cells;
+            //        var item = ["0", "0", "0", "0", "0", "0", "0", "0"]
+            //        for (var i = 0; i < cell.length; i++) {
+            //            var text = cell[i].innerText || cell[i].textContent;
+            //            item[i] = text;
+            //        }
+            //        //var tr = "" +
+            //        //    "<td>" +
+            //        //    "<input type='text' value='" + item[0] + "'/></td>" +
+            //        //    "<td><input type='text' value='" + item[1] + "'/></td>" +
+            //        //    "<td>@@Html.DropDownListFor(modelItem=>" + item[2] + ", new List<SelectListItem> {" +
+            //        //    "new SelectListItem{Text='Nam',Value='Nam',Selected=true}," +
+            //        //    "new SelectListItem{Text='Nữ',Value='Nữ',Selected=true}}, new { @@class = 'form-control' })</td>" +
+            //        //    "<td></td><td></td><td></td><td></td><td></td><td></td>";
+            //        var tr = "" +
+            //            "<td>" +
+            //            "<input type='text' value='" + item[0] + "' disabled='disabled'/></td>" +
+            //            "<td> " +
+            //            "<td><input type='text' value='" + item[2] + "'/></td></td>" +
+            //            "<td><input type='text' value='" + item[3] + "'/></td></td>" +
+            //            "<td><input type='file' value='" + item[4] + "'/></td></td>" +
+            //            "<td><input type='file' value='" + item[5] + "'/></td>" +
+            //            "<td><input type='file' value='" + item[6] + "'/></td>" +
+            //            "<td><a hre></a></td>";
+            //        //var s = "tbody " + item[0]
+            //        $(this).sa
+            //        $(this).closest("tr").replaceWith(tr);
+
+            //    });
+        })
+    </script>
+}

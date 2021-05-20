@@ -45,7 +45,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -114,12 +126,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -170,6 +176,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -191,6 +199,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbManager.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\dbQuanLyNhanSu.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbQuanLyNhanSu.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dbQuanLyNhanSu.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbQuanLyNhanSu.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dbQuanLyNhanSu.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbQuanLyNhanSu.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Department.cs">
       <DependentUpon>dbManager.tt</DependentUpon>
     </Compile>
@@ -200,8 +223,18 @@
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\Site.cs">
       <DependentUpon>dbManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>dbQuanLyNhanSu.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbl_Deparment.cs">
+      <DependentUpon>dbQuanLyNhanSu.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbl_Employee.cs">
+      <DependentUpon>dbQuanLyNhanSu.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -211,10 +244,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="image\NV2.jpg" />
+    <Content Include="image\NV1.jpg" />
+    <Content Include="js\jsEmployee.js" />
     <Content Include="Models\dbManager.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>dbManager.edmx</DependentUpon>
@@ -225,6 +262,16 @@
       <DependentUpon>dbManager.edmx</DependentUpon>
       <LastGenOutput>dbManager.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\dbQuanLyNhanSu.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dbQuanLyNhanSu.edmx</DependentUpon>
+      <LastGenOutput>dbQuanLyNhanSu.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\dbQuanLyNhanSu.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dbQuanLyNhanSu.edmx</DependentUpon>
+      <LastGenOutput>dbQuanLyNhanSu.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\dbManager.edmx">
@@ -233,6 +280,13 @@
     </EntityDeploy>
     <Content Include="Models\dbManager.edmx.diagram">
       <DependentUpon>dbManager.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\dbQuanLyNhanSu.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dbQuanLyNhanSu.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\dbQuanLyNhanSu.edmx.diagram">
+      <DependentUpon>dbQuanLyNhanSu.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -283,9 +337,16 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Insert.cshtml" />
     <Content Include="Views\Home\LoadAll.cshtml" />
+    <Content Include="Views\Employee\Home.cshtml" />
+    <Content Include="Views\Employee\Insert.cshtml" />
+    <Content Include="Views\Employee\AccessEmp.cshtml" />
+    <Content Include="Views\Employee\EditEmp.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\ShowALL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Department\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

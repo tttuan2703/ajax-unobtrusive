@@ -2,83 +2,67 @@
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<p>EmpployeeId : @ViewBag.EmployeeId</p>
-<p>Name : @ViewBag.Name</p>
-<p>DepartmentId : @ViewBag.DepartmentId</p>
-<p>SiteName : @ViewBag.SiteName</p>
-<p></p>
-@using (Html.BeginForm())
-{
-    <input type="text" value="@ViewBag.EmployeeId" />
-    <br />
-    <input type="text" value="@ViewBag.Name" />
-    <br />
-    <input type="text" value="@ViewBag.DepartmentId" />
-    <br />
-    <input type="text" value="@ViewBag.SiteName" />
-    <br>
-
-    <input type="submit" value="submit"/>
-}
-
+@*@model WebApplication1.Models.EmployeeModel*@
+<br />
+<p>Mã Nhân Viên: @ViewBag.EmployeeId</p>
+<p>Tên Nhân Viên: @ViewBag.Name</p>
+<p>Mã Phòng: @ViewBag.DepartmentId</p>
+<p>Site Name: @ViewBag.SiteName</p>
 @*<form data-ajax="true" data-ajax-method="post" data-ajax-confirm="Are you sure" data-ajax-failure="fail" data-ajax-complete="com">
-        @using (Html.BeginForm())
-        {
-        <input type="text" value="@ViewBag.EmployeeId" />
+        <input type="text" value="@Model.EmployeeId" />
         <br />
-        <input type="text" value="@ViewBag.Name" />
+        <input type="text" value="@Model.Name" />
         <br />
-        <input type="text" value="@ViewBag.DepartmentId" />
+        <input type="text" value="@Model.DepartmentId" />
         <br />
-        <input type="text" value="@ViewBag.SiteName" /><br>
+        <input type="text" value="@Model.SiteName" /><br>
 
         <input type="submit" />
-        }
     </form>*@
 <br />
-@*<span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
-    <a data-ajax="true" data-ajax-loading="#spinner" data-ajax-begin="" data-ajax-update="#content" data-ajax-loading-duration="5000">Load image</a>
-                    <div id="content">
+<span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
+<a data-ajax="true" data-ajax-loading="#spinner" data-ajax-begin="" data-ajax-update="#content" data-ajax-loading-duration="5000">Load image</a>
+<div id="content">
 
-                    </div>
-                                    <br />
+</div>
+<br />
 
-                                                    <a data-ajax="true" data-ajax-url="/home/LoadAll" data-ajax-update="#tbl" href="">Load lai table</a>
-                                                                    <table id="tbl" class="table table-bordered">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th></th>
-                                                                                <th></th>
-                                                                                <th></th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>*@
-@*@section scripts{
-        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-        <script>
-            function fail(mes) {
-                alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
-            };
-            function com(mes) {
-                alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
-            };
-        </script>
-    }*@
+<a data-ajax="true" data-ajax-url="/home/contact" data-ajax-update="#tbl" href="">Load lai table</a>
+<table id="tbl" class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+@section scripts{
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function fail(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+        function com(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+    </script>
+}
