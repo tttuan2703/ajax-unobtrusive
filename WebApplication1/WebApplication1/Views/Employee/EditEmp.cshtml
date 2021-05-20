@@ -20,7 +20,7 @@
 @using (Html.BeginForm("EditEmp", "Employee", FormMethod.Post, new { @id = Model.Id }))
 {
     <td>
-        @Html.DisplayFor(model => model.Id, new { @class = "form-control" ,@id = "id"})
+        @Html.DisplayFor(model => model.Id, new { @class = "form-control", @id = "id" })
     </td>
     <td>
         @Html.TextBoxFor(model => model.Name)
@@ -29,17 +29,19 @@
     <td>
         @Html.DropDownListFor(model => model.Gender, new List<SelectListItem> {
                        new SelectListItem{Text="Nam",Value="Nam",Selected=true},
-                       new SelectListItem{Text="Nữ",Value="Nữ",Selected=true}}, new { @class = "form-control",@id = "gender" })
+                       new SelectListItem{Text="Nữ",Value="Nữ",Selected=true}}, new { @class = "form-control", @id = "gender" })
         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
     </td>
     <td>
         @Html.TextBoxFor(model => model.City, new { @class = "form-control", @id = "city" })
         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
     </td>
-    <td>
-        @Html.TextBoxFor(model => model.Image, new { @class = "form-control", type = "file", accept = ".jpg,.png", @id = "hinhAnh", maxlength = "100000" })
+    <td onclick="loadHinh()">
+        @Html.TextBoxFor(model => model.Image, new { @class = "form-control", @onchange = "kiemTraHinh()", value = "" + Model.Image, type = "file", accept = ".jpg,.png", @id = "hinhAnh" })
+        <label for="hinhAnh" class="pull-right" id="lb">@Model.Image</label>
         @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
     </td>
+
     <td>
         @Html.DropDownListFor(model => model.statusflag, new List<SelectListItem> {
                        new SelectListItem{Text="True",Value="true",Selected=true},
@@ -55,7 +57,9 @@
         @*@Html.ActionLink("Save change", "EditEmp", new {  }, new { @id = "btnUpdate", @class = "btn btn-info" })*@
 
 
-        <button type="submit" value="Save" id="btnSave" class="btn btn-info " onclick="updateEmp(@Model.Id)" style="width:100px">Save</button>
+        <button type="submit" value="Save" id="btnSave" class="btn btn-info " onclick="updateEmp(@Model.Id)" style="width:100px">Save</button> &nbsp;
+        @Ajax.ActionLink("Quay lại", "Index", "Employee", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ContentPanel" }, new { @class = "btn btn-info" })
+        @*<button type="submit" value="Save" id="btnSave" class="btn btn-info " onclick="Reload" style="width:100px">Quay lại</button>*@
 
 
         @*<input type="submit" value="Save" class="btn btn-info" style="width:100px" />*@

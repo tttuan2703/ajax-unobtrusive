@@ -19,8 +19,9 @@
             alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
         };
     </script>
-}
+    <script type="text/javascript" src="../../js/jsEmployee.js"></script>
 
+}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -44,7 +45,6 @@
            }, new { @class = "form-control", @id = "gd" })
             </div>
         </div>
-
         <div class="form-group">
             <b class="col-sm-2 col-md-2">Thành phố: </b>
             <div class="col-sm-4 col-md-4">
@@ -52,14 +52,15 @@
             </div>
             <b class="col-sm-1 col-md-1">Hình ảnh: </b>
             <div class="col-md-4">
-                @Html.TextBoxFor(model => model.Image, new { @class = "form-control", type = "file", accept = ".jpg,.png", @id = "img"})
+                @Html.TextBoxFor(model => model.Image, new { @class = "form-control", type = "file", accept = ".jpg,.png", @id = "hinhAnh", @onchange = "kiemTraHinh()"})
             </div>
         </div>
+        <input type="file" id="i" on="kiemTraHinh()"/>
 
         <div class="form-group">
             <b class="col-sm-2 col-md-2">Mã phòng ban: </b>
             <div class="col-md-4">
-                @Html.DropDownListFor(model => model.DeptId, null, "select DepartmentId", new { @class = "form-control", @id = "d"})
+                @Html.DropDownListFor(model => model.DeptId, null, "select DepartmentId", new { @class = "form-control", @id = "d" })
             </div>
             <b class="col-sm-1 col-md-1">Show</b>
             <div class="col-sm-4 col-md-4">
@@ -73,12 +74,11 @@
                 </div>
             </div>
         </div>
-       
-        @if (!string.IsNullOrEmpty(ViewBag.LoiTen) || !string.IsNullOrEmpty(ViewBag.LoiDept) || !string.IsNullOrEmpty(ViewBag.LoiGD) || !string.IsNullOrEmpty(ViewBag.LoiImage) )
+
+        @if (!string.IsNullOrEmpty(ViewBag.LoiTen) || !string.IsNullOrEmpty(ViewBag.LoiDept) || !string.IsNullOrEmpty(ViewBag.LoiGD) || !string.IsNullOrEmpty(ViewBag.LoiImage))
         {
             <div class="form-group">
                 <div class="alert alert-danger alert-dismissible text-center " id="er">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     @ViewBag.LoiTen &nbsp; @ViewBag.LoiDept &nbsp; @ViewBag.LoiGD &nbsp; @ViewBag.LoiImage
                 </div>
             </div>
@@ -90,7 +90,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Home", "Home")
+    @Html.ActionLink("Back to Home", "Index")
 </div>
 
 <script>
@@ -118,5 +118,14 @@
                 }
             })
         })
+        //var img = document.getElementById("hinhAnh");
+        //console.log(img)
+        //if (img != undefined)
+        //    img.onchange = function () {
+        //        if (this.files[0].size > 83886080) {
+        //            alert("File is too big! Just receive file < 80MB!");
+        //            this.value = "";
+        //        }
+        //    }
     })
 </script>

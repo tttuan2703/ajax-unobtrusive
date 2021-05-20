@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
+<h2>Phân trang</h2>
+<br />
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <p>
@@ -18,11 +18,13 @@
     {
         <input type="text" name="search" placeholder="Enter Employee Name ..." />
         <input type="submit" name="submit" value="Search" />
-    }
+    } <br>
+<p style="color:red">@ViewBag.LoiTim</p>
 </p>
-@Ajax.ActionLink("Show All", "ShowAll", "Employee", new { f = true }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ContentPanel" }) 
+@Ajax.ActionLink("Show All", "ShowAll", "Employee", new { f = true }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ContentPanel" })
 @Html.ActionLink("Create Employee", "insert", "Employee", new { @class = "pull-right" })
-<br /><br />
+<br />
+<br />
 <table class="table table-bordered">
     <tr>
         <th>
@@ -207,7 +209,7 @@
         })
     </script>
 }
-@using WebApplication1.Controllers 
+@using WebApplication1.Controllers
 @*@{
     EmployeeController con = new EmployeeController();
     IEnumerable<WebApplication1.Models.tbl_Employee> emp = con.timNhanVien()

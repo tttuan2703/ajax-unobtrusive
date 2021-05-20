@@ -98,6 +98,10 @@ namespace WebApplication1.Controllers
                         }
                     }
                 }
+                else
+                {
+                    ViewBag.LoiImage = " Image còn trống!";
+                }
                 //db.tbl_Employee.Add(emp);
                 //db.SaveChanges();
                 //return RedirectToAction("ShowDeTailEmp", "Employee", emp);
@@ -200,7 +204,14 @@ namespace WebApplication1.Controllers
             ViewBag.CurrentSort = search;
             ViewBag.DeptId = new SelectList(db.tbl_Deparment, "DeptId", "Name");
             List<tbl_Employee> list = db.tbl_Employee.ToList();
-            return View(db.tbl_Employee.Where(x => x.Name.StartsWith(search) || search == null && x.statusflag != false).ToList().ToPagedList(i ?? pageIndex, pageSize));
+            //if (db.tbl_Employee.Where(x => x.Name.StartsWith(search) || search == null && x.statusflag != false).ToList().ToPagedList(i ?? pageIndex, pageSize) == null)
+            //{
+            //    ViewBag.LoiTim = "Từ khóa không tồn tại!";
+            //    search = "";
+            //    ViewBag.CurrentSort = search;
+            //    return View(db.tbl_Employee.Where(x => x.Name.StartsWith(search) || search == null && x.statusflag != false).ToList().ToPagedList(i ?? pageIndex, pageSize));
+            //}
+            return View(db.tbl_Employee.Where(x => x.Name.Contains(search) || search == null && x.statusflag != false).ToList().ToPagedList(i ?? pageIndex, pageSize));
         }
         public ActionResult ShowALL(string search, int? i)
         {

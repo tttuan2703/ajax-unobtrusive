@@ -1,4 +1,4 @@
-﻿const { post } = require("jquery");
+﻿////const { post } = require("jquery");
 
 function updateEmp(idEmp) {
     emp = $("#" + idEmp + ">#id").value;
@@ -23,3 +23,24 @@ function updateEmp(idEmp) {
         }
     })
 }
+
+
+function kiemTraHinh() {
+    //var img = document.getElementById("hinhAnh");
+    var img = document.getElementById("hinhAnh");
+    console.log(img)
+    if (img != undefined) {
+            if (img.files[0].size > 83886080) {
+                alert("File is too big! Just receive file < 80MB!");
+                img.value = "";
+        }
+    }
+}
+
+function loadHinh() {
+    var lb = document.getElementById("lb");
+    var imgtag = document.getElementById("hinhAnh");
+    console.log(lb.innerHTML)
+    imgtag.files[0].value = lb.innerHTML;
+}
+

@@ -433,3 +433,7 @@ C:\Users\tuan.tai\Desktop\New folder (2)\12-5-2020\WebApplication1\WebApplicatio
 C:\Users\tuan.tai\Desktop\New folder (2)\12-5-2020\WebApplication1\WebApplication1\bin\PagedList.xml
 C:\Users\tuan.tai\Desktop\New folder (2)\12-5-2020\WebApplication1\WebApplication1\bin\PagedList.Mvc.xml
 C:\Users\tuan.tai\Desktop\New folder (2)\12-5-2020\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csprojAssemblyReference.cache
+D:\git\ajax-unobtrusive\WebApplication1\WebApplication1\bin\PagedList.dll
+D:\git\ajax-unobtrusive\WebApplication1\WebApplication1\bin\PagedList.Mvc.dll
+D:\git\ajax-unobtrusive\WebApplication1\WebApplication1\bin\PagedList.xml
+D:\git\ajax-unobtrusive\WebApplication1\WebApplication1\bin\PagedList.Mvc.xml
