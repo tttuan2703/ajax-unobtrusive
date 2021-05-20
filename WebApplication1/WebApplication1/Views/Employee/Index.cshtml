@@ -1,0 +1,266 @@
+﻿@model PagedList.IPagedList<WebApplication1.Models.tbl_Employee>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<p>
+    @*@Ajax.ActionLink("Create New", "Insert","Employee",new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ContentPanel" })*@
+    @*<a data-ajax="true" data-ajax-begin="" data-ajax-confirm="Are you sure?" data-ajax-url="/employee/insert"  data-ajax-update="#ContentPanel">Create Employee</a>*@
+</p>
+<p>
+    @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+    {
+        <input type="text" name="search" placeholder="Enter Employee Name ..." />
+        <input type="submit" name="submit" value="Search" />
+    }
+</p>
+@Ajax.ActionLink("Show All", "ShowAll", "Employee", new { f = true }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ContentPanel" }) 
+@Html.ActionLink("Create Employee", "insert", "Employee", new { @class = "pull-right" })
+<br /><br />
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.ActionLink("Id", "Index", new { sortOrder = "Id", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = "Name", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("Gender", "Index", new { sortOrder = "Gender", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("City", "Index", new { sortOrder = "City", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("Image", "Index", new { sortOrder = "Image", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("StatusFlag", "Index", new { sortOrder = "statusFlag", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>
+            @Html.ActionLink("DepartmentName", "Index", new { sortOrder = "DeptId", CurrentSort = ViewBag.CurrentSort })
+        </th>
+        <th>Control</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="@item.Id">
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @*@Html.TextBoxFor(modelItem => item.Image,new { @type= "image", @src=""})*@
+                <center><img src="~/image/@item.Image" class="img-rounded img-responsive img-circle" style="width:100px;height:100px;border:1px solid #000000" /></center>
+            </td>
+            <td>
+                @*@Html.DropDownListFor(modelItem => item.statusflag, ViewBag.statusFlag as SelectList, new { @class = "statusFlag" })*@
+                @*@Html.DisplayTextFor(modelItem => item.statusflag)*@
+                @if (item.statusflag == true)
+                {
+                    <i class="fas fa-check-circle" style="color:green;font-size:40px"></i>
+                }
+                @if (item.statusflag == false)
+                {
+                    <i class="fas fa-times-circle" style="color:red;font-size:40px"></i>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tbl_Deparment.Name)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "EditEmp", new { id = item.Id }, new { @id = "btnUpdate" }) |*@
+                @*<button type="button" data-toggle="modal" onclick="" id="btnUpdate" class="btn btn-info" data-target="#modal">Edit</button> &nbsp;*@
+
+                <a data-ajax="true" data-ajax-url="/Employee/EditEmp/@item.Id" data-ajax-update="#@item.Id" href="" class="btn btn-info">Edit Directly</a> &nbsp;
+
+                <button type="button" data-toggle="modal" onclick="" id="btnUpdate" class="btn btn-info" data-target="#modal">Edit Modal</button> &nbsp;
+                @*@Html.ActionLink("Delete", "DeleteEmployeeConfirm", new { id = item.Id }, new { @id = "btnDelete", @class = " btn btn-info" })*@
+                @*<a data-ajax="true" id="btnDelete" data-ajax-confirm="Bạn có chắc muốn xóa ?" href="~/Employee/DeleteEmployeeConfirm/@item.Id" class="btn btn-info">Delete</a>*@
+                @Ajax.ActionLink("Xóa", "DeleteEmployeeConfirm", new { Id = item.Id }, new AjaxOptions { Confirm = "Bạn Muốn Xóa Không?", OnComplete = "$('#" + @item.Id + "').remove()", HttpMethod = "DELETE" }, new { @class = "btn btn-info" })
+
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+@*<div id="Paging" style="text-align:center">
+        Page @(Model.PageCount <Model.PageNumber ? 0: Model.PageNumber)
+        of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>*@
+
+<center>@Html.PagedListPager(Model, i => Url.Action("Index", "Employee", new { i, search = Request.QueryString["search"] }))</center>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>*@
+    <script type="text/javascript" src="../../js/jsEmployee.js"></script>
+    <script>
+        function fail(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+        function com(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+
+        };
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            var id = null;
+
+            $("btnUpdate").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/Employee/Edit?" + (this).id
+                })
+            })
+            //var img = document.getElementById("hinhAnh");
+            //var sizeMax = 0;
+            //img.onchange = function () {
+            //    sizeMax = this.files[0].size;
+            //    if (this.files[0].size > 83886080) {
+            //        alert("File is too big! Just receive file < 80MB!");
+            //    }
+            //}
+            //$("#btnSave").click(function () {
+            //    if (sizeMax > 83886080) {
+            //        alert("File is too big! Just receive file < 80MB!");
+            //        img.value = "NV1.jpg";
+            //        return;
+            //    }
+            //})
+            //$("#btnDelete").click(function () {
+            //    $.ajax({
+            //        success: function (response) {
+            //            alert("Delete successfull!");
+            //        }
+            //    })
+            //});
+
+            //    $("#trEmployee tr ").click(function () {
+            //        //$.ajax({
+            //        //    url: "Employee/Home",
+            //        //    success: (function (response) {
+            //        //        ()
+            //        //    })
+            //        //})
+            //        var currentRow = $(this).closest("tr")[0];
+            //        //alert(currentRow)
+            //        var cell = currentRow.cells;
+            //        var item = ["0", "0", "0", "0", "0", "0", "0", "0"]
+            //        for (var i = 0; i < cell.length; i++) {
+            //            var text = cell[i].innerText || cell[i].textContent;
+            //            item[i] = text;
+            //        }
+            //        //var tr = "" +
+            //        //    "<td>
+            //" +
+            //        //    "<input type='text' value='" + item[0] + "' />
+            //</td > " +
+            //        //    "<td><input type='text' value='" + item[1] + "' /></td>" +
+            //        //    "<td>
+            //@@Html.DropDownListFor(modelItem => " + item[2] + ", new List < SelectListItem >
+            //{
+            //    " +
+            //        //    "new SelectListItem{Text='Nam',Value='Nam',Selected=true}," +
+            //        //    "new SelectListItem{Text='Nữ',Value='Nữ',Selected=true}}, new { @@class = 'form-control' })
+            //</td> " +
+            //        //    "<td></td><td></td><td></td><td></td><td></td><td></td>";
+            //        var tr = "" +
+            //            "<td>
+            //" +
+            //            "<input type='text' value='" + item[0] + "' disabled='disabled' />
+            //</td > " +
+            //            "<td>
+            //" +
+            //            "
+            //< td > <input type='text' value='" + item[2] + "' /></td ></td > " +
+            //            "<td><input type='text' value='" + item[3] + "' /></td></td>" +
+            //            "<td><input type='file' value='" + item[4] + "' /></td></td>" +
+            //            "<td><input type='file' value='" + item[5] + "' /></td>" +
+            //            "<td><input type='file' value='" + item[6] + "' /></td>" +
+            //            "<td><a hre></a></td>";
+            //        //var s = "tbody " + item[0]
+            //        $(this).sa
+            //        $(this).closest("tr").replaceWith(tr);
+
+            //    });
+        })
+    </script>
+}
+@using WebApplication1.Controllers 
+@*@{
+    EmployeeController con = new EmployeeController();
+    IEnumerable<WebApplication1.Models.tbl_Employee> emp = con.timNhanVien()
+    }*@
+<div class="modal fade " id="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Employee</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formEdit">
+                    <div class="form-group">
+                        <label for="MaNV">Mã Nhân Viên </label>
+                        <input type="text" class="form-control" id="Id" placeholder="@Model.OrderByDescending(nv => nv.Id).First().Id" disabled="disabled" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tenNV">Tên Nhân Viên </label>
+                        <input type="text" class="form-control" id="Name" value="@Model.OrderByDescending(nv => nv.Id).First().Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="gt">Giới tính</label>
+                        @Html.DropDownList(@Model.OrderByDescending(nv => nv.Gender).First().Gender, new List<SelectListItem> {
+                           new SelectListItem{Text="Nam",Value="Nam",Selected=true},
+                           new SelectListItem{Text="Nữ",Value="Nữ",Selected=true}}, new { @class = "form-control", @id = "Gender" })
+                    </div>
+                    <div class="form-group">
+                        <label for="City">Thành phố</label>
+                        <input type="text" class="form-control" id="City" value="@Model.OrderByDescending(nv => nv.Id).First().City" />
+                    </div>
+                    <div class="form-group">
+                        <label for="City">Hình ảnh</label>
+                        <input type="file" class="form-control" id="Image" />
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Trạng thái</label>
+                        @Html.DropDownList(@Model.OrderByDescending(nv => nv.statusflag).First().statusflag.ToString(), new List<SelectListItem> {
+                           new SelectListItem{Text="True",Value="True",Selected=true},
+                           new SelectListItem{Text="False",Value="False",Selected=true}}, new { @class = "form-control", @id = "statusflag" })
+                    </div>
+                    <div class="form-group">
+                        <label for="dept">Tên phòng ban</label>
+                        @Html.DropDownList("DeptId", null, htmlAttributes: new { @class = "form-control", @id = "deptId" })
+                    </div>
+                    <div class="form-group">
+                        <center><input type="submit" value="SAVE" class="btn btn-info" /></center>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

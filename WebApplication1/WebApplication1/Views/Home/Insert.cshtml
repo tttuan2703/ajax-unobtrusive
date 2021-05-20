@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Insert";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Insert</h2>
@@ -10,25 +10,28 @@
 @model WebApplication1.Models.EmployeeModel
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<form id="myForm" style="width:40%;font-size:20px; margin-top:10px;">
-        @using (Html.BeginForm())
-        {
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
-        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "--select--", new { @class = "form-control", @id = "drop_ID" })
-         @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+@using (Html.BeginForm("Insert", "Home"))
+{
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Name", @id = "name" })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @placeholder = "Address", @id = "Address" })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "--select--", new { @class = "form-control", @id = "drop_ID" })
+    @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
 
-                @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control", @placeholder = "SiteName" })
+    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Name", @id = "name" })
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @placeholder = "Address", @id = "Address" })
+    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
-                <input type="submit" value="Submit" class="btn btn-block btn-primary " id="btnSubmit"/>
-        }
-</form>
-    @Html.Partial("~/Views/Home/LoadIndex.cshtml")
+    @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control", @placeholder = "SiteName" })
+
+    <input type="submit" value="Submit" class="btn btn-block btn-primary " id="btnSubmit" />
+}
+
 @*@Ajax.ActionLink("Load lại sản phẩm.", "Contact", "Home", new AjaxOptions
          {
         UpdateTargetId = "div_1",
@@ -54,55 +57,64 @@
 
             return false;
         })
+        //$("#btnSubmit").click(function () {
+        //    var data = $("#myForm").serialize();
+        //    $.ajax({
 
-        $("#btnSubmit").click(function () {
-            var data = $("#myForm").serialize();
-            var json = JSON.parse(JSON.stringify($("#myForm").serialize()))
-            //console.log(json["DepartmentId"])
-            $.ajax({
+        //        type: "POST",
+        //        url: "/Home/Insert?"+data,
+        //        data: data,
+        //        success: function (response) {
+        //            for (var i in data) {
+        //                if (i > 3)
+        //                    break
+        //                var s = data.split('=')[i]
+        //                if (s.split('&')[0] == "") {
+        //                    alert("you wrong");
+        //                    return;
+        //                }
+        //                console.log(s.split('&')[0])
+        //            }
+        //            var emp = $("table tbody ");
+        //            emp.append("<tr>" +
+        //                "<td>" + response.EmployeeId + "</td>" +
+        //                "<td>" + response.Name + "</td>" +
+        //                "<td>" + response.DepartmentId + "</td>" +
+        //                "<td>" + response.Address + "</td>" +
+        //                + "</tr>")
+        //            alert("you are done");
+        //        }
 
-                type: "POST",
-                url: "/Home/Insert",
-                data: data,
-                success: function (response) {
-                    //var obj = {};
-                    //var lst = JSON.stringify(data)
-                    //for (var i = 0; i < lst.length; i++) {
-                    //    console.log(lst[i]['DepartmentId'])
-                    //}
-                    //console.log(lst)
-                    //for (var key in data) {
-                    //    obj[data[key].split("=")[0]] = data[key].split("=")[1];
-                    //    console.log(key)
-                    //    if (obj[data[key].split("=")[0]] == undefined) {
-                    //        alert("you wrong");
-                    //        return;
-                    //    }
-                    //}
-                    //console.log(obj);
-                    for (var i in data) {
-                        if (i > 3)
-                            break
-                        var s = data.split('=')[i]
-                        if (s.split('&')[0] == "") {
-                            alert("you wrong");
-                            return;
-                        }
-                        console.log(s.split('&')[0])
-                    }
-                    alert("you success");
-                    console.log(response.split("=")[1])
-                    var emp = $("table tbody ");
-                    emp.append("<tr>" +
-                        "<td>" + response.EmployeeId + "</td>" +
-                        "<td>" + response.Name + "</td>" +
-                        "<td>" + response.DepartmentId + "</td>" +
-                        "<td>" + response.Address + "</td>" +
-                        + "</tr>")
-                }
+        //    })
 
-            })
-        })
+        //$("#btnSubmit").click(function () {
+        //    var data = $("#myForm").serialize();
+        //    $.ajax({
+        //        type: "POST",
+        //        data: data,
+        //        success: function (response) {
+        //            for (var i in data) {
+        //                if (i > 3)
+        //                    break
+        //                var s = data.split('=')[i]
+        //                if (s.split('&')[0] == "") {
+        //                    alert("you wrong");
+        //                    return;
+        //                }
+        //                console.log(s.split('&')[0])
+        //            }
+        //            var emp = $("table tbody ");
+        //            emp.append("<tr>" +
+        //                "<td>" + response.EmployeeId + "</td>" +
+        //                "<td>" + response.Name + "</td>" +
+        //                "<td>" + response.DepartmentId + "</td>" +
+        //                "<td>" + response.Address + "</td>" +
+        //                + "</tr>")
+        //            alert("you are done");
+        //        }
+
+        //    })
+        //})
     })
 </script>
 
