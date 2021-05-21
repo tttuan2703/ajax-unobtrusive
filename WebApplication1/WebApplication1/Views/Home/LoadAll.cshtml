@@ -17,7 +17,7 @@
     <tbody>
         @{
             MVCTutorialEntities db = new MVCTutorialEntities();
-            foreach (var item in db.Employees)
+            foreach (var item in db.Employees.OrderByDescending(t => t.EmployeeId))
             {
                 <tr>
                     <td>@item.EmployeeId</td>

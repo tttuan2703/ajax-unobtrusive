@@ -1,0 +1,122 @@
+﻿@model WebApplication1.Models.tbl_Employee
+
+@{
+    ViewBag.Title = "Insert";
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .hiddenx {
+        display: none;
+    }
+</style>
+<h2>Insert</h2>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function fail(mes) {
+            alert('Status:' + mes.status + ',Status Text: ' + mes.statusText);
+        };
+    </script>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" id="divContent">
+        <h4>Table Employee</h4>
+        <hr />
+        @*@Html.ValidationSummary(true, "", new { @class = "alert alert-warning" })*@
+        <div class="form-group">
+            <b class="col-sm-2 col-md-2 ">Tên nhân viên: </b>
+            <div class="col-sm-4 col-md-4">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "name" } })
+            </div>
+            <b class="col-sm-1 col-md-1">Giới tính: </b>
+            <div class="col-sm-4 col-md-4">
+                @Html.DropDownListFor(model => model.Gender, new List<SelectListItem>
+           {
+               new SelectListItem{Text="Select Gender",Value="",Selected=true},
+               new SelectListItem{Text="Nam",Value="Nam",Selected=false},
+               new SelectListItem{Text="Nữ",Value="Nữ",Selected=false}
+           }, new { @class = "form-control", @id = "gd" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-sm-2 col-md-2">Thành phố: </b>
+            <div class="col-sm-4 col-md-4">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <b class="col-sm-1 col-md-1">Hình ảnh: </b>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Image, new { @class = "form-control", type = "file", accept = ".jpg,.png", @id = "img"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-sm-2 col-md-2">Mã phòng ban: </b>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.DeptId, null, "select DepartmentId", new { @class = "form-control", @id = "d"})
+            </div>
+            <b class="col-sm-1 col-md-1">Show</b>
+            <div class="col-sm-4 col-md-4">
+                <div class="checkbox">
+                    @Html.DropDownListFor(model => model.statusflag, new List<SelectListItem>
+           {
+               new SelectListItem{Text="Select status",Value="",Selected=true},
+               new SelectListItem{Text="True",Value="true",Selected=false},
+               new SelectListItem{Text="False",Value="false",Selected=false}
+           }, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+       
+        @if (!string.IsNullOrEmpty(ViewBag.LoiTen) || !string.IsNullOrEmpty(ViewBag.LoiDept) || !string.IsNullOrEmpty(ViewBag.LoiGD) || !string.IsNullOrEmpty(ViewBag.LoiImage) )
+        {
+            <div class="form-group">
+                <div class="alert alert-danger alert-dismissible text-center " id="er">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    @ViewBag.LoiTen &nbsp; @ViewBag.LoiDept &nbsp; @ViewBag.LoiGD &nbsp; @ViewBag.LoiImage
+                </div>
+            </div>
+        }
+        <div class="col-md-offset-4 col-md-8">
+            <input type="submit" value="Create" class="btn btn-info " style="width:150px; font-size:15px;font-weight:bold" id="btnInsert" data-ajax="true" data-ajax-failure="fail" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Home", "Home")
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnInsert").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Employee/Insert",
+                success: function (response) {
+                    var n = $("#name").val();
+                    var g = $("#gd").val();
+                    var d = $("#d").val();
+                    var img = new Image();
+                    img = $("#img");
+                    console.log(img.length());
+                    if (img.length > 92160) {
+                        alert("Hình ảnh đã lớn hơn 100MB!");
+                    }
+
+                    if (n == "" || g == "" || d == "") {
+                        alert("You insert error!");
+                        return;
+                    }
+                    alert("You insert success!");
+                }
+            })
+        })
+    })
+</script>

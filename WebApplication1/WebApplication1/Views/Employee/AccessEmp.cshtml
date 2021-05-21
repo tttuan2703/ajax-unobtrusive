@@ -1,0 +1,66 @@
+﻿@model WebApplication1.Models.tbl_Employee
+
+@{
+    ViewBag.Title = "AccessEmp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Kiểm tra lại thông tin nhân viên</h2>
+
+<div class="table table-bordered" style="width:500px;height:300px">
+    <hr />
+    <dl class="col-md-4 " >
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Image)*@
+            <img src="~/image/@Model.Image" class="img-rounded img-responsive " style="width:100px;height:150px" />
+        </dd>
+    </dl>
+    <dl class="dl-horizontal col-md-8 ">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.statusflag)
+        </dt>
+
+        <dd>
+            @Html.DisplayTextFor(model => model.statusflag)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.tbl_Deparment.Name)
+        </dd>
+        <dd>
+        </dd>
+    </dl>
+</div>
+<a href="~/Employee/Home" class="btn btn-info img-rounded text-center">Access</a>
+<p>
+    <br />
+    @Html.ActionLink("Back to Edit", "EditEmp",new { id = Model.Id })
+</p>

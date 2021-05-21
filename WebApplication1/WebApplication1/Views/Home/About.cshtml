@@ -1,20 +1,24 @@
 ﻿@{
     ViewBag.Title = "About";
-    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model WebApplication1.Models.EmployeeModel
+@*@model WebApplication1.Models.EmployeeModel*@
+<br />
+<p>Mã Nhân Viên: @ViewBag.EmployeeId</p>
+<p>Tên Nhân Viên: @ViewBag.Name</p>
+<p>Mã Phòng: @ViewBag.DepartmentId</p>
+<p>Site Name: @ViewBag.SiteName</p>
+@*<form data-ajax="true" data-ajax-method="post" data-ajax-confirm="Are you sure" data-ajax-failure="fail" data-ajax-complete="com">
+        <input type="text" value="@Model.EmployeeId" />
+        <br />
+        <input type="text" value="@Model.Name" />
+        <br />
+        <input type="text" value="@Model.DepartmentId" />
+        <br />
+        <input type="text" value="@Model.SiteName" /><br>
 
-<form data-ajax="true" data-ajax-method="post" data-ajax-confirm="Are you sure" data-ajax-failure="fail" data-ajax-complete="com">
-    <input type="text" value="@Model.EmployeeId" />
-    <br />
-    <input type="text" value="@Model.Name" />
-    <br />
-    <input type="text" value="@Model.DepartmentId" />
-    <br />
-    <input type="text" value="@Model.SiteName" /><br>
-
-    <input type="submit" />
-</form>
+        <input type="submit" />
+    </form>*@
 <br />
 <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
 <a data-ajax="true" data-ajax-loading="#spinner" data-ajax-begin="" data-ajax-update="#content" data-ajax-loading-duration="5000">Load image</a>

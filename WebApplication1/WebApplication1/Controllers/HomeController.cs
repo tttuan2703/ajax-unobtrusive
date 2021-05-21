@@ -24,12 +24,12 @@ namespace WebApplication1.Controllers
         public ActionResult Insert()
         {
             Models.MVCTutorialEntities db = new Models.MVCTutorialEntities();
-            Session["employee"] = null;
+            //Session["employee"] = null;
             List<Department> list = db.Departments.ToList();
             var listEmp = db.Employees.ToList();
             ViewBag.DepartmentList = new SelectList(list, "DepartmentId", "DepartmentName");
             ViewBag.ListEmp = new SelectList(listEmp);
-            return PartialView();
+            return View();
         }
 
         [HttpPost]
@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers
                     site.EmployeeId = latestEmpId;
                     db.Sites.Add(site);
                     db.SaveChanges();
-                return RedirectToAction("About", "Home", model);
+                    return RedirectToAction("About", "Home",model);
                 }
                 return View();
             }
@@ -70,20 +70,24 @@ namespace WebApplication1.Controllers
                 throw ex;
             }
         }
-        public ActionResult About(EmployeeModel emp)
+        public ActionResult About(Employee emp)
         {
-            try
+            //EmployeeModel emp = (EmployeeModel)Session["employee"];
+            if (emp != null)
             {
-                //ViewBag.Message = "Your application description page.";
-                //if(this.Session["employee"]!=null)
-                //    emp = (EmployeeModel)this.Session["employee"];
+                ViewBag.EmployeeId = emp.EmployeeId;
+                ViewBag.DepartmentId = emp.DepartmentId;
+                ViewBag.Name = emp.Name;
+                ViewBag.Address = emp.Address;
                 return View(emp);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return View();
         }
+
+        //public ActionResult About(EmployeeModel emp)
+        //{
+        //        return View(emp);
+        //}
 
         public ActionResult LoadIndex()
         {
